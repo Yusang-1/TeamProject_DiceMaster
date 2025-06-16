@@ -1,14 +1,19 @@
 using UnityEngine;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.IO;
+using Newtonsoft.Json.Bson;
 
 public class SaveLoad : MonoBehaviour
 {
     DataForSaveLoad data;
-
+    AESCryptor aes;
     private readonly string folderPath = Application.dataPath.ToString() + "/Save";
     private readonly string filePath = Application.dataPath.ToString() + "/Save/Save.json";
+
+    private void Start()
+    {
+        aes = new AESCryptor();
+    }
 
     public void Save()
     {
@@ -19,13 +24,18 @@ public class SaveLoad : MonoBehaviour
 
         data = data.GetSaveData();
 
-        string jsonString = JsonConvert.SerializeObject(data, Formatting.Indented);
-        File.WriteAllText(filePath, jsonString);        
+        string jsonString = JsonConvert.SerializeObject(data);
+
+        string encryptedString = aes.Encryptor(jsonString);
+
+        File.WriteAllText(filePath, encryptedString);
     }
 
     public void Load()
     {
-        string jsonString = File.ReadAllText(filePath);
+        string encryptedString = File.ReadAllText(filePath);
+
+        string jsonString = aes.Decryptor(encryptedString);
 
         data.GetLoadData(jsonString);
     }
