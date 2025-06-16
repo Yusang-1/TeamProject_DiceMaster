@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class PlayerInfo : MonoBehaviour
 {
-StatHandler Gm = GameManager.Instance.player.statHandler;
-   
+    StatHandler Gm = GameManager.Instance.player.statHandler;
 
- public string name;
+
+    public string name;
 
     public float maxHp;
     public float currentHp;
@@ -28,7 +28,7 @@ StatHandler Gm = GameManager.Instance.player.statHandler;
     public void GetExp()
     {
         exp += exp; //몬스터가 가질 exp값?
-        
+
     }
 
     public void ResetExp()
@@ -36,7 +36,7 @@ StatHandler Gm = GameManager.Instance.player.statHandler;
         exp = 0;
     }
 
-   public void SetInfo()
+    public void SetInfo()
     {
         name = Gm.statData.characterName;
         maxHp = Gm.GetStat(StatType.MaxHp);
@@ -46,6 +46,6 @@ StatHandler Gm = GameManager.Instance.player.statHandler;
         dodge = Gm.GetStat(StatType.Evasion);
 
     }
-    
-    
+
+
 }
